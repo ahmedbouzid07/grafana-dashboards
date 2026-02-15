@@ -27,7 +27,7 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -38,7 +38,7 @@
       "panels": [],
       "targets": [
         {
-          "datasource": "Thanos",
+          { "type": "prometheus", "uid": "thanos-main" },
           "refId": "A"
         }
       ],
@@ -46,7 +46,7 @@
       "type": "row"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -120,7 +120,7 @@
       },
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "editorMode": "builder",
           "expr": "sum(rate(process_cpu_seconds_total[5m]))",
           "legendFormat": "Total CPU seconds",
@@ -132,7 +132,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -207,7 +207,7 @@
       },
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "editorMode": "builder",
           "expr": "sum(process_resident_memory_bytes)",
           "hide": false,
@@ -220,7 +220,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -294,7 +294,7 @@
       },
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "editorMode": "builder",
           "expr": "rate(process_cpu_seconds_total{job=\"httpServiceDiscovery\"}[5m])",
           "legendFormat": "{{service}}",
@@ -302,7 +302,7 @@
           "refId": "A"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "editorMode": "builder",
           "expr": "sum(rate(process_cpu_seconds_total{job=\"k10-pods\"}[5m]))",
           "hide": false,
@@ -311,7 +311,7 @@
           "refId": "B"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "editorMode": "builder",
           "expr": "sum(rate(process_cpu_seconds_total{job=\"pushAggregator\"}[5m]))",
           "hide": false,
@@ -320,7 +320,7 @@
           "refId": "C"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "editorMode": "builder",
           "expr": "sum(rate(process_cpu_seconds_total{job=\"prometheus\"}[5m]))",
           "hide": false,
@@ -333,7 +333,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -408,7 +408,7 @@
       },
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "editorMode": "builder",
           "expr": "process_resident_memory_bytes{job=\"pushAggregator\"}",
           "hide": false,
@@ -417,7 +417,7 @@
           "refId": "C"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "editorMode": "builder",
           "expr": "process_resident_memory_bytes{job=\"httpServiceDiscovery\"}",
           "hide": false,
@@ -426,7 +426,7 @@
           "refId": "A"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "editorMode": "builder",
           "expr": "sum(process_resident_memory_bytes{job=\"k10-pods\"})",
           "hide": false,
@@ -435,7 +435,7 @@
           "refId": "B"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "editorMode": "builder",
           "expr": "sum(process_resident_memory_bytes{job=\"prometheus\"})",
           "hide": false,
@@ -449,7 +449,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -460,7 +460,7 @@
       "panels": [],
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "refId": "A"
         }
       ],
@@ -468,7 +468,7 @@
       "type": "row"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -518,9 +518,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_backup_ended_overall{cluster=\"$cluster\", state=\"succeeded\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_backup_ended_overall{cluster=~\"$cluster\", state=\"succeeded\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -531,7 +531,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -591,9 +591,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_backup_ended_overall{cluster=\"$cluster\", state=~\"failed|cancelled\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_backup_ended_overall{cluster=~\"$cluster\", state=~\"failed|cancelled\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -604,7 +604,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -664,9 +664,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_backup_skipped_overall{cluster=\"$cluster\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_backup_skipped_overall{cluster=~\"$cluster\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -677,7 +677,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -737,9 +737,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_restore_ended_overall{cluster=\"$cluster\", state=\"succeeded\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_restore_ended_overall{cluster=~\"$cluster\", state=\"succeeded\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -750,7 +750,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -810,9 +810,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_restore_ended_overall{cluster=\"$cluster\", state=~\"failed|cancelled\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_restore_ended_overall{cluster=~\"$cluster\", state=~\"failed|cancelled\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -823,7 +823,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -883,9 +883,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_restore_skipped_overall{cluster=\"$cluster\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_restore_skipped_overall{cluster=~\"$cluster\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -897,7 +897,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -908,7 +908,7 @@
       "panels": [],
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "refId": "A"
         }
       ],
@@ -916,7 +916,7 @@
       "type": "row"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -966,9 +966,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_backup_cluster_ended_overall{cluster=\"$cluster\", state=\"succeeded\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_backup_cluster_ended_overall{cluster=~\"$cluster\", state=\"succeeded\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -979,7 +979,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1039,9 +1039,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_backup_cluster_ended_overall{cluster=\"$cluster\", state=~\"failed|cancelled\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_backup_cluster_ended_overall{cluster=~\"$cluster\", state=~\"failed|cancelled\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -1052,7 +1052,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1112,9 +1112,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_backup_cluster_skipped_overall{cluster=\"$cluster\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_backup_cluster_skipped_overall{cluster=~\"$cluster\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -1125,7 +1125,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1185,9 +1185,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_restore_cluster_ended_overall{cluster=\"$cluster\", state=\"succeeded\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_restore_cluster_ended_overall{cluster=~\"$cluster\", state=\"succeeded\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -1198,7 +1198,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1258,9 +1258,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_restore_cluster_ended_overall{cluster=\"$cluster\", state=~\"failed|cancelled\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_restore_cluster_ended_overall{cluster=~\"$cluster\", state=~\"failed|cancelled\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -1271,7 +1271,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1331,9 +1331,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_restore_cluster_skipped_overall{cluster=\"$cluster\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_restore_cluster_skipped_overall{cluster=~\"$cluster\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -1345,7 +1345,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1356,7 +1356,7 @@
       "panels": [],
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "refId": "A"
         }
       ],
@@ -1364,7 +1364,7 @@
       "type": "row"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1414,9 +1414,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_export_ended_overall{cluster=\"$cluster\", state=\"succeeded\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_export_ended_overall{cluster=~\"$cluster\", state=\"succeeded\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -1427,7 +1427,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1487,9 +1487,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_export_ended_overall{cluster=\"$cluster\", state=~\"failed|cancelled\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_export_ended_overall{cluster=~\"$cluster\", state=~\"failed|cancelled\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -1500,7 +1500,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1560,9 +1560,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_export_skipped_overall{cluster=\"$cluster\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_export_skipped_overall{cluster=~\"$cluster\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -1573,7 +1573,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1623,9 +1623,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_import_ended_overall{cluster=\"$cluster\", state=\"succeeded\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_import_ended_overall{cluster=~\"$cluster\", state=\"succeeded\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -1636,7 +1636,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1696,9 +1696,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_import_ended_overall{cluster=\"$cluster\", state=~\"failed|cancelled\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_import_ended_overall{cluster=~\"$cluster\", state=~\"failed|cancelled\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -1709,7 +1709,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1769,9 +1769,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_import_skipped_overall{cluster=\"$cluster\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_import_skipped_overall{cluster=~\"$cluster\"}[$__range]))))",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -1783,7 +1783,7 @@
     },
     {
       "collapsed": false,
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1794,7 +1794,7 @@
       "panels": [],
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "refId": "A"
         }
       ],
@@ -1802,7 +1802,7 @@
       "type": "row"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1863,9 +1863,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_run_ended_overall{cluster=\"$cluster\", state=\"succeeded\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_run_ended_overall{cluster=~\"$cluster\", state=\"succeeded\"}[$__range]))))",
           "format": "time_series",
           "interval": "",
           "legendFormat": "",
@@ -1877,7 +1877,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1939,9 +1939,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
-          "expr": "sum(round(increase(action_run_skipped_overall{cluster=\"$cluster\"}[$__range])))",
+          "expr": "sum(max without (replica, receive) (round(increase(action_run_skipped_overall{cluster=~\"$cluster\"}[$__range]))))",
           "format": "time_series",
           "interval": "",
           "legendFormat": "",
@@ -1953,7 +1953,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -2000,9 +2000,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": true,
-          "expr": "catalog_persistent_volume_disk_space_used_bytes{cluster=\"$cluster\"}",
+          "expr": "catalog_persistent_volume_disk_space_used_bytes{cluster=~\"$cluster\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -2013,7 +2013,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -2072,9 +2072,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": true,
-          "expr": "100-catalog_persistent_volume_free_space_percent{cluster=\"$cluster\"}",
+          "expr": "100-catalog_persistent_volume_free_space_percent{cluster=~\"$cluster\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -2085,7 +2085,7 @@
       "type": "gauge"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -2132,9 +2132,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": true,
-          "expr": "jobs_persistent_volume_disk_space_used_bytes{cluster=\"$cluster\"}",
+          "expr": "jobs_persistent_volume_disk_space_used_bytes{cluster=~\"$cluster\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -2145,7 +2145,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -2204,9 +2204,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": true,
-          "expr": "100-jobs_persistent_volume_free_space_percent{cluster=\"$cluster\"}",
+          "expr": "100-jobs_persistent_volume_free_space_percent{cluster=~\"$cluster\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -2217,7 +2217,7 @@
       "type": "gauge"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -2264,9 +2264,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": true,
-          "expr": "logging_persistent_volume_disk_space_used_bytes{cluster=\"$cluster\"}",
+          "expr": "logging_persistent_volume_disk_space_used_bytes{cluster=~\"$cluster\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -2277,7 +2277,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -2336,9 +2336,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": true,
-          "expr": "100-logging_persistent_volume_free_space_percent{cluster=\"$cluster\"}",
+          "expr": "100-logging_persistent_volume_free_space_percent{cluster=~\"$cluster\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -2349,7 +2349,7 @@
       "type": "gauge"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2399,7 +2399,7 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
           "expr": "compliance_count{state=\"Compliant\"}",
           "hide": false,
@@ -2412,7 +2412,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2462,7 +2462,7 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
           "expr": "compliance_count{state=\"NotCompliant\"}",
           "hide": false,
@@ -2475,7 +2475,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2525,7 +2525,7 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": false,
           "expr": "compliance_count{state=\"Unmanaged\"}",
           "hide": false,
@@ -2538,7 +2538,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -2585,9 +2585,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": true,
-          "expr": "snapshot_storage_size_bytes{cluster=\"$cluster\", type=\"physical\"}",
+          "expr": "snapshot_storage_size_bytes{cluster=~\"$cluster\", type=\"physical\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -2598,7 +2598,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -2645,9 +2645,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": true,
-          "expr": "snapshot_storage_size_bytes{cluster=\"$cluster\", type=\"logical\"}",
+          "expr": "snapshot_storage_size_bytes{cluster=~\"$cluster\", type=\"logical\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -2658,7 +2658,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -2705,9 +2705,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": true,
-          "expr": "export_storage_size_bytes{cluster=\"$cluster\", type=\"physical\"}",
+          "expr": "export_storage_size_bytes{cluster=~\"$cluster\", type=\"physical\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -2718,7 +2718,7 @@
       "type": "stat"
     },
     {
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -2765,9 +2765,9 @@
       "pluginVersion": "9.1.5",
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "exemplar": true,
-          "expr": "export_storage_size_bytes{cluster=\"$cluster\", type=\"logical\"}",
+          "expr": "export_storage_size_bytes{cluster=~\"$cluster\", type=\"logical\"}",
           "interval": "",
           "legendFormat": "",
           "queryType": "randomWalk",
@@ -2779,7 +2779,7 @@
     },
     {
       "collapsed": true,
-      "datasource": "Thanos",
+      "datasource": { "type": "prometheus", "uid": "thanos-main" },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2789,7 +2789,7 @@
       "id": 49,
       "panels": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -2881,7 +2881,7 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(exec_executor_worker_count)",
               "legendFormat": "Worker Count",
@@ -2889,7 +2889,7 @@
               "refId": "A"
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(exec_active_job_count) OR on() vector(0)",
               "hide": false,
@@ -2902,7 +2902,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -2981,7 +2981,7 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(rate(action_backup_duration_seconds_sum_overall[5m])) / sum(rate(action_backup_ended_overall[5m]))",
               "hide": false,
@@ -2990,7 +2990,7 @@
               "refId": "A"
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(rate(action_backup_cluster_duration_seconds_overall_sum[5m])) / sum(rate(action_backup_cluster_ended_overall[5m]))",
               "hide": false,
@@ -2999,7 +2999,7 @@
               "refId": "B"
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(rate(action_export_duration_seconds_sum_overall[5m])) / sum(rate(action_export_ended_overall[5m]))",
               "hide": false,
@@ -3008,7 +3008,7 @@
               "refId": "C"
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(rate(action_import_duration_seconds_sum_overall[5m])) / sum(rate(action_import_ended_overall[5m]))",
               "hide": false,
@@ -3017,7 +3017,7 @@
               "refId": "D"
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(rate(action_report_duration_seconds_sum_overall[5m])) / sum(rate(action_report_ended_overall[5m]))",
               "hide": false,
@@ -3026,7 +3026,7 @@
               "refId": "E"
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(rate(action_retire_duration_seconds_sum_overall[5m])) / sum(rate(action_retire_ended_overall[5m]))",
               "hide": false,
@@ -3035,7 +3035,7 @@
               "refId": "F"
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(rate(action_restore_duration_seconds_sum_overall[5m])) / sum(rate(action_restore_ended_overall[5m]))",
               "hide": false,
@@ -3044,7 +3044,7 @@
               "refId": "G"
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(rate(action_restore_cluster_duration_seconds_sum_overall[5m])) / sum(rate(action_restore_cluster_ended_overall[5m]))",
               "hide": false,
@@ -3057,7 +3057,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -3197,9 +3197,9 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
-              "expr": "sum(round(increase(action_backup_ended_overall[1m:10s]))) by (state)",
+              "expr": "sum(max without (replica, receive) (round(increase(action_backup_ended_overall[1m:10s])))) by (state)",
               "hide": false,
               "legendFormat": "__auto",
               "range": true,
@@ -3211,7 +3211,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -3351,9 +3351,9 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
-              "expr": "sum(round(increase(action_backup_cluster_ended_overall[1m:10s]))) by (state)",
+              "expr": "sum(max without (replica, receive) (round(increase(action_backup_cluster_ended_overall[1m:10s])))) by (state)",
               "hide": false,
               "legendFormat": "__auto",
               "range": true,
@@ -3365,7 +3365,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -3505,9 +3505,9 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
-              "expr": "sum(round(increase(action_export_ended_overall[1m:10s]))) by (state)",
+              "expr": "sum(max without (replica, receive) (round(increase(action_export_ended_overall[1m:10s])))) by (state)",
               "hide": false,
               "legendFormat": "__auto",
               "range": true,
@@ -3519,7 +3519,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -3659,9 +3659,9 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
-              "expr": "sum(round(increase(action_import_ended_overall[1m:10s]))) by (state)",
+              "expr": "sum(max without (replica, receive) (round(increase(action_import_ended_overall[1m:10s])))) by (state)",
               "hide": false,
               "legendFormat": "__auto",
               "range": true,
@@ -3673,7 +3673,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -3813,9 +3813,9 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
-              "expr": "sum(round(increase(action_report_ended_overall[1m:10s]))) by (state)",
+              "expr": "sum(max without (replica, receive) (round(increase(action_report_ended_overall[1m:10s])))) by (state)",
               "hide": false,
               "legendFormat": "__auto",
               "range": true,
@@ -3827,7 +3827,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -3967,9 +3967,9 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
-              "expr": "sum(round(increase(action_retire_ended_overall[1m:10s]))) by (state)",
+              "expr": "sum(max without (replica, receive) (round(increase(action_retire_ended_overall[1m:10s])))) by (state)",
               "hide": false,
               "legendFormat": "__auto",
               "range": true,
@@ -3981,7 +3981,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -4121,9 +4121,9 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
-              "expr": "sum(round(increase(action_restore_ended_overall[1m:10s]))) by (state)",
+              "expr": "sum(max without (replica, receive) (round(increase(action_restore_ended_overall[1m:10s])))) by (state)",
               "hide": false,
               "legendFormat": "__auto",
               "range": true,
@@ -4135,7 +4135,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -4275,9 +4275,9 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
-              "expr": "sum(round(increase(action_restore_cluster_ended_overall[1m:10s]))) by (state)",
+              "expr": "sum(max without (replica, receive) (round(increase(action_restore_cluster_ended_overall[1m:10s])))) by (state)",
               "hide": false,
               "legendFormat": "__auto",
               "range": true,
@@ -4289,7 +4289,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -4364,7 +4364,7 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(rate(limiter_request_seconds_sum{stage=\"hold\"}[5m])) by (operation) / sum(rate(limiter_request_seconds_count{stage=\"hold\"}[5m])) by (operation) ",
               "legendFormat": "__auto",
@@ -4376,7 +4376,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -4500,7 +4500,7 @@
           "repeatDirection": "h",
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "limiter_inflight_count{operation=\"$operation\"}",
               "legendFormat": "Inflight",
@@ -4508,7 +4508,7 @@
               "refId": "A"
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "limiter_pending_count{operation=\"$operation\"}",
               "hide": false,
@@ -4517,7 +4517,7 @@
               "refId": "B"
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "limiter_inflight_limit_value{operation=\"$operation\"}",
               "hide": false,
@@ -4532,7 +4532,7 @@
       ],
       "targets": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "refId": "A"
         }
       ],
@@ -4550,7 +4550,7 @@
       "id": 84,
       "panels": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -4625,7 +4625,7 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(increase(action_export_transferred_bytes[5m:30s]))/sum((increase(action_export_processed_bytes[5m:30s])>0))",
               "legendFormat": "Transferred/Processed across all actions",
@@ -4637,7 +4637,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -4712,7 +4712,7 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "(increase(action_export_transferred_bytes[5m:30s])/(increase(action_export_processed_bytes[5m:30s])>0))",
               "legendFormat": "{{policy}}:{{app}}",
@@ -4724,7 +4724,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -4799,7 +4799,7 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "increase(action_export_transferred_bytes[5m:30s]) > 0",
               "legendFormat": "{{policy}}:{{app}}",
@@ -4811,7 +4811,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -4886,7 +4886,7 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "increase(action_export_processed_bytes[5m:30s]) > 0",
               "legendFormat": "{{policy}}:{{app}}",
@@ -4912,7 +4912,7 @@
       "id": 1013,
       "panels": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -5092,7 +5092,7 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "disableTextWrap": false,
               "editorMode": "code",
               "expr": "sum (max_over_time(data_operation_volume_count{}[2m]))",
@@ -5105,7 +5105,7 @@
               "useBackend": false
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "disableTextWrap": false,
               "editorMode": "code",
               "expr": "sum by (repo_type) (max_over_time(data_upload_session_volume_count{repo_type=\"VBR\"}[2m]))",
@@ -5119,7 +5119,7 @@
               "useBackend": false
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum by (data_format,operation,storage_class,repo_name) (rate(data_operation_normalized_duration_sum{}[2m])) / sum by (data_format,operation,storage_class,repo_name) (rate(data_operation_normalized_duration_count{}[2m]))",
               "hide": false,
@@ -5133,7 +5133,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -5314,7 +5314,7 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "disableTextWrap": false,
               "editorMode": "code",
               "expr": "sum (max_over_time(data_operation_volume_count{}[2m]))",
@@ -5327,7 +5327,7 @@
               "useBackend": false
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "disableTextWrap": false,
               "editorMode": "code",
               "expr": "sum by (repo_type) (max_over_time(data_upload_session_volume_count{repo_type=\"VBR\"}[2m]))",
@@ -5341,7 +5341,7 @@
               "useBackend": false
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum by (data_format,operation,namespace,pvc_name) (rate(data_operation_duration_sum{}[2m])) / sum by (data_format,operation,namespace,pvc_name) (rate(data_operation_duration_count{}[2m]))",
               "hide": false,
@@ -5355,7 +5355,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -5535,7 +5535,7 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "disableTextWrap": false,
               "editorMode": "code",
               "expr": "sum (max_over_time(data_operation_volume_count{}[2m]))",
@@ -5549,7 +5549,7 @@
               "useBackend": false
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "disableTextWrap": false,
               "editorMode": "code",
               "expr": "sum by (repo_type) (max_over_time(data_upload_session_volume_count{repo_type=\"VBR\"}[2m]))",
@@ -5563,7 +5563,7 @@
               "useBackend": false
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "avg by (data_format, operation, storage_class, repo_name) (rate(data_operation_bytes{}[$__rate_interval]))",
               "hide": false,
@@ -5577,7 +5577,7 @@
           "type": "timeseries"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -5757,7 +5757,7 @@
           },
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "disableTextWrap": false,
               "editorMode": "code",
               "expr": "sum (max_over_time(data_operation_volume_count{}[2m]))",
@@ -5771,7 +5771,7 @@
               "useBackend": false
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "disableTextWrap": false,
               "editorMode": "code",
               "expr": "sum by (repo_type) (max_over_time(data_upload_session_volume_count{repo_type=\"VBR\"}[2m]))",
@@ -5785,7 +5785,7 @@
               "useBackend": false
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "avg by (data_format, operation, namespace, pvc_name) (rate(data_operation_bytes{}[$__rate_interval]))",
               "hide": false,
@@ -5813,7 +5813,7 @@
       "id": 1016,
       "panels": [
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -5861,7 +5861,7 @@
           "pluginVersion": "11.1.5",
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "disableTextWrap": false,
               "editorMode": "code",
               "exemplar": false,
@@ -5907,7 +5907,7 @@
           "type": "stat"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -5956,7 +5956,7 @@
           "pluginVersion": "11.1.5",
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "disableTextWrap": false,
               "editorMode": "code",
               "exemplar": false,
@@ -5972,7 +5972,7 @@
               "useBackend": false
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(repository_data_pruned_bytes{namespace=\"kasten-io\"} > 0)",
               "hide": false,
@@ -5986,7 +5986,7 @@
           "type": "bargauge"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -6033,7 +6033,7 @@
           "pluginVersion": "11.1.5",
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(repository_data_pruned_bytes_total)",
               "instant": false,
@@ -6058,7 +6058,7 @@
           "type": "stat"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -6111,7 +6111,7 @@
           "pluginVersion": "11.1.5",
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "exemplar": false,
               "expr": "repository_data_pruned_bytes_total{namespace!=\"kasten-io\"} > 0",
@@ -6123,7 +6123,7 @@
               "refId": "A"
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(repository_data_pruned_bytes_total{namespace=\"kasten-io\"} > 0)",
               "hide": false,
@@ -6137,7 +6137,7 @@
           "type": "bargauge"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -6185,7 +6185,7 @@
           "pluginVersion": "11.1.5",
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(repository_data_scheduled_for_pruning_bytes)",
               "instant": false,
@@ -6210,7 +6210,7 @@
           "type": "stat"
         },
         {
-          "datasource": "Thanos",
+          "datasource": { "type": "prometheus", "uid": "thanos-main" },
           "fieldConfig": {
             "defaults": {
               "color": {
@@ -6258,7 +6258,7 @@
           "pluginVersion": "11.1.5",
           "targets": [
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "repository_data_scheduled_for_pruning_bytes{namespace!=\"kasten-io\"} > 0",
               "instant": false,
@@ -6267,7 +6267,7 @@
               "refId": "A"
             },
             {
-              "datasource": "Thanos",
+              "datasource": { "type": "prometheus", "uid": "thanos-main" },
               "editorMode": "code",
               "expr": "sum(repository_data_scheduled_for_pruning_bytes{namespace=\"kasten-io\"} > 0)",
               "hide": false,
@@ -6291,36 +6291,29 @@
   "templating": {
     "list": [
       {
-        "hide": 2,
-        "label": "Cluster",
-        "name": "cluster",
-        "query": "",
-        "skipUrlSync": false,
-        "type": "constant"
-      },
-      {
         "current": {
           "selected": false,
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "Thanos",
-        "definition": "limiter_pending_count",
+        "datasource": { "type": "prometheus", "uid": "thanos-main" },
+        "definition": "label_values(compliance_count, cluster)",
         "description": "",
-        "hide": 2,
+        "hide": 0,
         "includeAll": true,
-        "label": "operation",
+        "allValue": ".*", 
+        "label": "Cluster",
         "multi": false,
-        "name": "operation",
+        "name": "cluster",
         "options": [],
         "query": {
-          "query": "limiter_pending_count",
+           "query": "label_values(compliance_count, cluster)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
-        "regex": "/operation=\\\"([\\w]+)\\\"/",
+        "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
+        "sort": 1,
         "type": "query"
       }
     ]
