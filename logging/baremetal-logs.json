@@ -1,0 +1,224 @@
+{
+    "annotations": { "list": [] },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 1,
+    "id": null,
+    "links": [
+    { "asDropdown": true, "icon": "external link", "includeVars": true, "keepTime": true, "tags": ["logging"], "targetBlank": false, "title": "Logging Dashboards", "type": "dashboards" }
+    ],
+    "panels": [
+    {
+        "gridPos": { "h": 2, "w": 24, "x": 0, "y": 0 },
+        "id": 1,
+        "options": {
+        "content": "# Bare-metal Event Logs\n\nSystemd journal logs from all Proxmox hypervisors. Select **Cluster** to choose infrastructure (vshosting, backup, hkn), then filter by **Instance** and **Unit**.",
+        "mode": "markdown"
+        },
+        "transparent": true,
+        "type": "text"
+    },
+    {
+        "gridPos": { "h": 4, "w": 6, "x": 0, "y": 2 },
+        "id": 2,
+        "title": "Total Log Lines",
+        "type": "stat",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": { "mode": "absolute", "steps": [{ "color": "orange", "value": null }]},
+            "unit": "short"
+        }
+        },
+        "options": { "colorMode": "background", "graphMode": "area", "reduceOptions": { "calcs": ["sum"], "values": false }},
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "sum(count_over_time({cluster=~\"$cluster\", instance=~\"$instance\", unit=~\"$unit\"} [$__range]))",
+        "refId": "A"
+        }]
+    },
+    {
+        "gridPos": { "h": 4, "w": 6, "x": 6, "y": 2 },
+        "id": 3,
+        "title": "Errors",
+        "type": "stat",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": { "mode": "absolute", "steps": [
+            { "color": "green", "value": null },
+            { "color": "yellow", "value": 5 },
+            { "color": "red", "value": 20 }
+            ]}
+        }
+        },
+        "options": { "colorMode": "background", "graphMode": "area", "reduceOptions": { "calcs": ["sum"], "values": false }},
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "sum(count_over_time({cluster=~\"$cluster\", instance=~\"$instance\", unit=~\"$unit\"} |~ \"(?i)error\" !~ \"(?i)(no error|error=nil)\" [$__range]))",
+        "refId": "A"
+        }]
+    },
+    {
+        "gridPos": { "h": 4, "w": 6, "x": 12, "y": 2 },
+        "id": 4,
+        "title": "SSH Events",
+        "type": "stat",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }]}
+        }
+        },
+        "options": { "colorMode": "background", "graphMode": "area", "reduceOptions": { "calcs": ["sum"], "values": false }},
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "sum(count_over_time({cluster=~\"$cluster\", instance=~\"$instance\"} |~ \"sshd\" [$__range]))",
+        "refId": "A"
+        }]
+    },
+    {
+        "gridPos": { "h": 4, "w": 6, "x": 18, "y": 2 },
+        "id": 5,
+        "title": "Sudo Commands",
+        "type": "stat",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": { "mode": "absolute", "steps": [{ "color": "purple", "value": null }]}
+        }
+        },
+        "options": { "colorMode": "background", "graphMode": "area", "reduceOptions": { "calcs": ["sum"], "values": false }},
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "sum(count_over_time({cluster=~\"$cluster\", instance=~\"$instance\"} |~ \"sudo\" [$__range]))",
+        "refId": "A"
+        }]
+    },
+    {
+        "gridPos": { "h": 6, "w": 12, "x": 0, "y": 6 },
+        "id": 10,
+        "title": "Log Volume by Server",
+        "type": "timeseries",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "palette-classic" },
+            "custom": { "fillOpacity": 60, "stacking": { "mode": "normal" } }
+        }
+        },
+        "options": { "legend": { "calcs": ["sum"], "displayMode": "table", "placement": "right", "sortBy": "Total", "sortDesc": true }},
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "sum by (instance) (count_over_time({cluster=~\"$cluster\", instance=~\"$instance\"} [$__interval]))",
+        "legendFormat": "{{instance}}",
+        "refId": "A"
+        }]
+    },
+    {
+        "gridPos": { "h": 6, "w": 12, "x": 12, "y": 6 },
+        "id": 11,
+        "title": "Log Volume by Systemd Unit",
+        "type": "timeseries",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "palette-classic" },
+            "custom": { "fillOpacity": 60, "stacking": { "mode": "normal" } }
+        }
+        },
+        "options": { "legend": { "calcs": ["sum"], "displayMode": "table", "placement": "right", "sortBy": "Total", "sortDesc": true }},
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "sum by (unit) (count_over_time({cluster=~\"$cluster\", instance=~\"$instance\", unit=~\"$unit\"} [$__interval]))",
+        "legendFormat": "{{unit}}",
+        "refId": "A"
+        }]
+    },
+    {
+        "gridPos": { "h": 15, "w": 24, "x": 0, "y": 12 },
+        "id": 20,
+        "title": "Logs",
+        "type": "logs",
+        "options": {
+        "showTime": true,
+        "showLabels": true,
+        "showCommonLabels": false,
+        "wrapLogMessage": true,
+        "prettifyLogMessage": false,
+        "enableLogDetails": true,
+        "sortOrder": "Descending"
+        },
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "{cluster=~\"$cluster\", instance=~\"$instance\", unit=~\"$unit\"} |~ \"$search\"",
+        "refId": "A"
+        }]
+    }
+    ],
+    "refresh": "30s",
+    "schemaVersion": 38,
+    "tags": ["logging", "baremetal", "proxmox", "systemd"],
+    "templating": {
+    "list": [
+        {
+        "current": { "selected": true, "text": "All", "value": "$__all" },
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "definition": "label_values({instance=~\".+\", namespace!~\".+\"}, cluster)",
+        "hide": 0,
+        "includeAll": true,
+        "allValue": ".+",
+        "label": "Cluster",
+        "multi": true,
+        "name": "cluster",
+        "options": [],
+        "query": { "label": "cluster", "stream": "{instance=~\".+\", namespace!~\".+\"}", "type": 1 },
+        "refresh": 2,
+        "type": "query"
+        },
+        {
+        "current": { "selected": true, "text": "All", "value": "$__all" },
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "definition": "label_values({cluster=~\"$cluster\", namespace!~\".+\"}, instance)",
+        "hide": 0,
+        "includeAll": true,
+        "allValue": ".+",
+        "label": "Instance",
+        "multi": true,
+        "name": "instance",
+        "options": [],
+        "query": { "label": "instance", "stream": "{cluster=~\"$cluster\", namespace!~\".+\"}", "type": 1 },
+        "refresh": 2,
+        "type": "query"
+        },
+        {
+        "current": { "selected": true, "text": "All", "value": "$__all" },
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "definition": "label_values({cluster=~\"$cluster\", instance=~\"$instance\"}, unit)",
+        "hide": 0,
+        "includeAll": true,
+        "allValue": ".+",
+        "label": "Unit",
+        "multi": true,
+        "name": "unit",
+        "options": [],
+        "query": { "label": "unit", "stream": "{cluster=~\"$cluster\", instance=~\"$instance\"}", "type": 1 },
+        "refresh": 2,
+        "type": "query"
+        },
+        {
+        "current": { "selected": false, "text": "", "value": "" },
+        "hide": 0,
+        "label": "Search",
+        "name": "search",
+        "options": [],
+        "query": "",
+        "type": "textbox"
+        }
+    ]
+    },
+    "time": { "from": "now-1h", "to": "now" },
+    "timepicker": { "refresh_intervals": ["10s", "30s", "1m", "5m", "15m", "30m", "1h"] },
+    "timezone": "",
+    "title": "Bare-metal Logs",
+    "uid": "baremetal-logs",
+    "version": 1
+}
