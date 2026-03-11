@@ -12,7 +12,7 @@
         "gridPos": { "h": 2, "w": 24, "x": 0, "y": 0 },
         "id": 1,
         "options": {
-        "content": "# Logs Explorer\n\nBrowse logs from all sources. Filter by **Cluster**, **Namespace/Instance**, **Pod**, **Container**. Use **Search** for pattern matching.",
+        "content": "# Logs Explorer\n\nBrowse logs from all sources (Kubernetes + Bare-metal). Filter by **Cluster** first, then use **Source** filter for K8s (namespace/pod) or bare-metal (instance/unit).",
         "mode": "markdown"
         },
         "transparent": true,
@@ -33,7 +33,7 @@
         "options": { "colorMode": "background", "graphMode": "area", "reduceOptions": { "calcs": ["sum"], "values": false }},
         "targets": [{
         "datasource": { "type": "loki", "uid": "loki-main" },
-        "expr": "sum(count_over_time({cluster=~\"$cluster\", namespace=~\"$namespace\", pod=~\"$pod\", container=~\"$container\"} |~ \"$search\" [$__range]))",
+        "expr": "sum(count_over_time({cluster=~\"$cluster\"} |~ \"$search\" [$__range]))",
         "refId": "A"
         }]
     },
@@ -55,7 +55,7 @@
         "options": { "colorMode": "background", "graphMode": "area", "reduceOptions": { "calcs": ["sum"], "values": false }},
         "targets": [{
         "datasource": { "type": "loki", "uid": "loki-main" },
-        "expr": "sum(count_over_time({cluster=~\"$cluster\", namespace=~\"$namespace\", pod=~\"$pod\", container=~\"$container\"} |~ \"(?i)error\" !~ \"(?i)(no error|error=nil|errors=0)\" [$__range]))",
+        "expr": "sum(count_over_time({cluster=~\"$cluster\"} |~ \"(?i)error\" !~ \"(?i)(no error|error=nil|errors=0)\" [$__range]))",
         "refId": "A"
         }]
     },
@@ -76,7 +76,7 @@
         "options": { "colorMode": "background", "graphMode": "area", "reduceOptions": { "calcs": ["sum"], "values": false }},
         "targets": [{
         "datasource": { "type": "loki", "uid": "loki-main" },
-        "expr": "sum(count_over_time({cluster=~\"$cluster\", namespace=~\"$namespace\", pod=~\"$pod\", container=~\"$container\"} |~ \"(?i)(warn|warning)\" [$__range]))",
+        "expr": "sum(count_over_time({cluster=~\"$cluster\"} |~ \"(?i)(warn|warning)\" [$__range]))",
         "refId": "A"
         }]
     },
@@ -96,7 +96,7 @@
         "options": { "colorMode": "background", "graphMode": "area", "reduceOptions": { "calcs": ["mean"], "values": false }},
         "targets": [{
         "datasource": { "type": "loki", "uid": "loki-main" },
-        "expr": "sum(rate({cluster=~\"$cluster\", namespace=~\"$namespace\", pod=~\"$pod\", container=~\"$container\"} |~ \"$search\" [$__interval]))",
+        "expr": "sum(rate({cluster=~\"$cluster\"} |~ \"$search\" [$__interval]))",
         "refId": "A"
         }]
     },
@@ -114,7 +114,7 @@
         "options": { "legend": { "calcs": ["sum"], "displayMode": "table", "placement": "right", "sortBy": "Total", "sortDesc": true }},
         "targets": [{
         "datasource": { "type": "loki", "uid": "loki-main" },
-        "expr": "sum by (cluster) (count_over_time({cluster=~\"$cluster\", namespace=~\"$namespace\", pod=~\"$pod\", container=~\"$container\"} |~ \"$search\" [$__interval]))",
+        "expr": "sum by (cluster) (count_over_time({cluster=~\"$cluster\"} |~ \"$search\" [$__interval]))",
         "legendFormat": "{{cluster}}",
         "refId": "A"
         }]
@@ -135,7 +135,7 @@
         },
         "targets": [{
         "datasource": { "type": "loki", "uid": "loki-main" },
-        "expr": "{cluster=~\"$cluster\", namespace=~\"$namespace\", pod=~\"$pod\", container=~\"$container\"} |~ \"$search\" |~ \"$level\"",
+        "expr": "{cluster=~\"$cluster\"} |~ \"$source_filter\" |~ \"$search\" |~ \"$level\"",
         "refId": "A"
         }]
     }
@@ -161,49 +161,14 @@
         "type": "query"
         },
         {
-        "current": { "selected": true, "text": "All", "value": "$__all" },
-        "datasource": { "type": "loki", "uid": "loki-main" },
-        "definition": "label_values({cluster=~\"$cluster\"}, namespace)",
+        "current": { "selected": false, "text": "", "value": "" },
         "hide": 0,
-        "includeAll": true,
-        "allValue": ".+",
-        "label": "Namespace",
-        "multi": false,
-        "name": "namespace",
+        "label": "Source Filter",
+        "description": "Filter by namespace, pod, instance, or unit name",
+        "name": "source_filter",
         "options": [],
-        "query": { "label": "namespace", "stream": "{cluster=~\"$cluster\"}", "type": 1 },
-        "refresh": 2,
-        "type": "query"
-        },
-        {
-        "current": { "selected": true, "text": "All", "value": "$__all" },
-        "datasource": { "type": "loki", "uid": "loki-main" },
-        "definition": "label_values({cluster=~\"$cluster\", namespace=~\"$namespace\"}, pod)",
-        "hide": 0,
-        "includeAll": true,
-        "allValue": ".+",
-        "label": "Pod",
-        "multi": false,
-        "name": "pod",
-        "options": [],
-        "query": { "label": "pod", "stream": "{cluster=~\"$cluster\", namespace=~\"$namespace\"}", "type": 1 },
-        "refresh": 2,
-        "type": "query"
-        },
-        {
-        "current": { "selected": true, "text": "All", "value": "$__all" },
-        "datasource": { "type": "loki", "uid": "loki-main" },
-        "definition": "label_values({cluster=~\"$cluster\", namespace=~\"$namespace\", pod=~\"$pod\"}, container)",
-        "hide": 0,
-        "includeAll": true,
-        "allValue": ".+",
-        "label": "Container",
-        "multi": false,
-        "name": "container",
-        "options": [],
-        "query": { "label": "container", "stream": "{cluster=~\"$cluster\", namespace=~\"$namespace\", pod=~\"$pod\"}", "type": 1 },
-        "refresh": 2,
-        "type": "query"
+        "query": "",
+        "type": "textbox"
         },
         {
         "current": { "selected": false, "text": "", "value": "" },

@@ -1,0 +1,206 @@
+{
+    "annotations": { "list": [] },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 1,
+    "id": null,
+    "links": [
+    { "asDropdown": true, "icon": "external link", "includeVars": true, "keepTime": true, "tags": ["logging"], "targetBlank": false, "title": "Logging Dashboards", "type": "dashboards" }
+    ],
+    "panels": [
+    {
+        "gridPos": { "h": 2, "w": 24, "x": 0, "y": 0 },
+        "id": 1,
+        "options": {
+        "content": "# Log Collection Health\n\nOverview of log collection status across all infrastructure. Verify all sources are actively sending logs.",
+        "mode": "markdown"
+        },
+        "transparent": true,
+        "type": "text"
+    },
+    {
+        "gridPos": { "h": 4, "w": 6, "x": 0, "y": 2 },
+        "id": 2,
+        "title": "Active Clusters",
+        "description": "Clusters sending logs in last 5 minutes",
+        "type": "stat",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": { "mode": "absolute", "steps": [
+            { "color": "red", "value": null },
+            { "color": "yellow", "value": 3 },
+            { "color": "green", "value": 5 }
+            ]}
+        }
+        },
+        "options": { "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "values": false }},
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "count(sum by (cluster) (count_over_time({cluster=~\".+\"} [5m])))",
+        "refId": "A"
+        }]
+    },
+    {
+        "gridPos": { "h": 4, "w": 6, "x": 6, "y": 2 },
+        "id": 3,
+        "title": "Active Namespaces",
+        "description": "K8s namespaces with logs in last 5 minutes",
+        "type": "stat",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }]}
+        }
+        },
+        "options": { "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "values": false }},
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "count(sum by (namespace) (count_over_time({namespace=~\".+\"} [5m])))",
+        "refId": "A"
+        }]
+    },
+    {
+        "gridPos": { "h": 4, "w": 6, "x": 12, "y": 2 },
+        "id": 4,
+        "title": "Active Pods",
+        "description": "Pods generating logs in last 5 minutes",
+        "type": "stat",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }]}
+        }
+        },
+        "options": { "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "values": false }},
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "count(sum by (pod) (count_over_time({pod=~\".+\"} [5m])))",
+        "refId": "A"
+        }]
+    },
+    {
+        "gridPos": { "h": 4, "w": 6, "x": 18, "y": 2 },
+        "id": 5,
+        "title": "Retention",
+        "description": "Log retention period configured in Loki",
+        "type": "stat",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }]},
+            "unit": "days"
+        }
+        },
+        "options": { "colorMode": "background", "graphMode": "none", "reduceOptions": { "calcs": ["lastNotNull"], "values": false }},
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "vector(30)",
+        "refId": "A"
+        }]
+    },
+    {
+        "gridPos": { "h": 6, "w": 12, "x": 0, "y": 6 },
+        "id": 10,
+        "title": "Log Volume by Cluster (Last Hour)",
+        "type": "timeseries",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "palette-classic" },
+            "custom": { "fillOpacity": 60, "stacking": { "mode": "normal" } }
+        }
+        },
+        "options": { "legend": { "calcs": ["sum"], "displayMode": "table", "placement": "right", "sortBy": "Total", "sortDesc": true }},
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "sum by (cluster) (count_over_time({cluster=~\".+\"} [$__interval]))",
+        "legendFormat": "{{cluster}}",
+        "refId": "A"
+        }]
+    },
+    {
+        "gridPos": { "h": 6, "w": 12, "x": 12, "y": 6 },
+        "id": 11,
+        "title": "Error Rate by Cluster",
+        "type": "timeseries",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "palette-classic" },
+            "custom": { "fillOpacity": 30, "lineWidth": 2 }
+        }
+        },
+        "options": { "legend": { "calcs": ["sum"], "displayMode": "table", "placement": "right" }},
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "sum by (cluster) (count_over_time({cluster=~\".+\"} |~ \"(?i)error\" !~ \"(?i)(no error|error=nil)\" [$__interval]))",
+        "legendFormat": "{{cluster}}",
+        "refId": "A"
+        }]
+    },
+    {
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+        "id": 20,
+        "title": "Clusters Sending Logs",
+        "description": "All clusters with log volume in selected time range",
+        "type": "table",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }]},
+            "custom": { "align": "left" }
+        },
+        "overrides": [
+            { "matcher": { "id": "byName", "options": "Value" }, "properties": [{ "id": "displayName", "value": "Log Lines" }]}
+        ]
+        },
+        "options": { "showHeader": true, "sortBy": [{ "desc": true, "displayName": "Log Lines" }] },
+        "transformations": [
+        { "id": "sortBy", "options": { "fields": {}, "sort": [{ "field": "Value", "desc": true }] }}
+        ],
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "sum by (cluster) (count_over_time({cluster=~\".+\"} [$__range]))",
+        "legendFormat": "{{cluster}}",
+        "refId": "A",
+        "instant": true
+        }]
+    },
+    {
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
+        "id": 21,
+        "title": "Top 15 Namespaces by Log Volume",
+        "type": "table",
+        "fieldConfig": {
+        "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }]},
+            "custom": { "align": "left" }
+        },
+        "overrides": [
+            { "matcher": { "id": "byName", "options": "Value" }, "properties": [{ "id": "displayName", "value": "Log Lines" }]}
+        ]
+        },
+        "options": { "showHeader": true, "sortBy": [{ "desc": true, "displayName": "Log Lines" }] },
+        "transformations": [
+        { "id": "sortBy", "options": { "fields": {}, "sort": [{ "field": "Value", "desc": true }] }}
+        ],
+        "targets": [{
+        "datasource": { "type": "loki", "uid": "loki-main" },
+        "expr": "topk(15, sum by (namespace) (count_over_time({namespace=~\".+\"} [$__range])))",
+        "legendFormat": "{{namespace}}",
+        "refId": "A",
+        "instant": true
+        }]
+    }
+    ],
+    "refresh": "1m",
+    "schemaVersion": 38,
+    "tags": ["logging", "health"],
+    "templating": { "list": [] },
+    "time": { "from": "now-1h", "to": "now" },
+    "timepicker": { "refresh_intervals": ["1m", "5m", "15m", "30m"] },
+    "timezone": "",
+    "title": "Log Collection Health",
+    "uid": "log-health",
+    "version": 1
+}
